@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Presensi & Durasi Instansi</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 30px;
+      background: #f9f9f9;
+      display: flex;
+      flex-direction: row;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .chart-container {
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    canvas {
+      max-width: 600px;
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Grafik Bar Presensi -->
+  <div class="chart-container">
+    <h3>Grafik Presensi Mingguan</h3>
+    <canvas id="chartPresensi"></canvas>
+  </div>
+
+  <!-- Grafik Pie Durasi Instansi -->
+  <div class="chart-container">
+    <h3>Durasi Jam per Instansi</h3>
+    <canvas id="chartDurasi"></canvas>
+  </div>
+
+  <script>
+    // 🔹 Data Presensi Mingguan
+    const labelsPresensi = ['AHAD', 'SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUM\'AT', 'SABTU'];
+    const dataPresensi = [5, 12, 9, 14, 7, 10, 3];
+
+    const ctxPresensi = document.getElementById('chartPresensi');
+    if (!ctxPresensi) console.error('Canvas chartPresensi tidak ditemukan');
+
+    new Chart(ctxPresensi, {
+      type: 'bar',
+      data: {
+        labels: labelsPresensi,
+        datasets: [{
+          label: 'Jumlah Presensi',
+          data: dataPresensi,
+          backgroundColor: 'rgba(54, 162, 235, 0.6)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Audit Presensi per Hari'
+          }
+        }
+      }
+    });
+
+    // 🔸 Data Durasi Jam per Instansi
+    const labelsDurasi = ['Pesantren', 'Keamanan', 'Ibtidaiyah', 'Tsanawiyah', 'Kesehatan', 'Idadiyah'];
+    const dataDurasi = [6, 2, 4, 5, 3, 2];
+
+    const ctxDurasi = document.getElementById('chartDurasi');
+    if (!ctxDurasi) console.error('Canvas chartDurasi tidak ditemukan');
+
+    new Chart(ctxDurasi, {
+      type: 'pie',
+      data: {
+        labels: labelsDurasi,
+        datasets: [{
+          label: 'Durasi Jam',
+          data: dataDurasi,
+          backgroundColor: [
+            '#4dc9f6', '#f67019', '#f53794', '#537bc4', '#acc236', '#166a8f'
+          ],
+          borderColor: '#fff',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Distribusi Durasi Jam per Instansi'
+          },
+          legend: {
+            position: 'right'
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

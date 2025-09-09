@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Keuangan Modular</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 40px;
+    }
+    .form-container {
+      background: #fff;
+      padding: 24px;
+      border-radius: 8px;
+      max-width: 1100px;
+      margin: auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .row-8col {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 768px) {
+      .row-8col {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .row-full, .row-4col-wide {
+      margin-bottom: 16px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 600;
+      font-size: 11px;
+      color: #333;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 12px;
+      box-sizing: border-box;
+    }
+    input[readonly] {
+      background-color: #F0FFF0;
+    }
+    button {
+      background-color: #32cd32;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    button:hover {
+      background-color: #228b22;
+    }
+    table {
+      font-size: 9px;
+      width: 100%;  
+      border-collapse: collapse;
+    }
+    th, td {
+      font-size: 9px;
+      padding: 7px 11px;
+      border: 0px solid #ddd;
+    }
+    .data-table tbody tr:nth-child(even) {
+      background-color: #eef2f7;
+    }
+    .data-table tbody tr:nth-child(odd) {
+      background-color: #ffffff;
+    }
+    .data-table tr.baru-disimpan {
+      background-color: #e6ffe6 !important;
+    }
+.btn-aksi {
+  padding: 2px 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-edit {
+  background-color: #A5D6A7;
+  color: #1B5E20;
+}
+
+.btn-hapus {
+  background-color: #EF9A9A;
+  color: #B71C1C;
+}
+.aksi-wrapper {
+  display: inline-flex;
+  gap: 4px;
+  flex-wrap: nowrap;
+}
+  </style>
+</head>
+<body>
+
+
+<div class="form-container">
+  <form id="form-keuangan">
+    <div class="row-8col">
+      <div>
+        <label for="instansi">Instansi:</label>
+        <select id="instansi"><option value="">Memuat data...</option></select>
+      </div>
+      <div>
+        <label for="status">Status:</label>
+	<select id="status">
+  	<option value="" disabled selected>-- Pilih Status --</option>
+  	<option value="Masuk">Masuk</option>
+  	<option value="Keluar">Keluar</option>
+	</select>
+      </div>
+      <div>
+        <label for="kriteria">Kriteria:</label>
+	<select id="kriteria">
+  	<option value="" disabled selected>-- Pilih Kriteria --</option>
+  	<option value="Pasti">Pasti</option>
+  	<option value="Tidak Pasti">Tidak Pasti</option>
+	</select>
+      </div>
+      <div>
+        <label for="volume">Volume:</label>
+        <input type="text" id="volume" placeholder="Qty">
+      </div>
+      <div>
+        <label for="nilai_satuan">Nilai Satuan:</label>
+        <input type="text" id="nilai_satuan" placeholder="Rp">
+      </div>
+       <div>
+        <label for="limit">Limit Pengeluaran:</label>
+        <input type="text" id="limit" placeholder="Rp" readonly>
+      </div>
+      <div>
+        <label for="ttl_pengeluaran_keluar">Ttl Pengeluaran:</label>
+        <input type="text" id="ttl_pengeluaran_keluar" placeholder="Rp" readonly>
+      </div>
+      <div>
+        <label for="total_nilai_2">Total Nilai:</label>
+        <input type="text" id="total_nilai_2" placeholder="Rp" readonly>
+      </div>
+    </div>
+
+    <div class="row-4col-wide">
+      <div>
+        <label for="judul">Judul:</label>
+        <input type="text" id="judul" placeholder="Contoh: Pengeluaran Operasional Bulanan">
+      </div>
+      <div>
+        <label for="deskripsi">Deskripsi:</label>
+        <textarea id="deskripsi" rows="1" placeholder="Tuliskan deskripsi..."></textarea>
+      </div>
+<div>
+  <label for="saldo_global_input">Saldo terakhir (Global):</label>
+  <input type="text" id="saldo_global_input" placeholder="Rp" readonly>
+</div>
+<div>
+  <label for="saldo_pasti">Saldo Pasti (Global):</label>
+  <input type="text" id="saldo_pasti" placeholder="Rp" readonly class="saldo-hijau">
+</div>
+    </div>
+
+    <div class="row-full">
+<div>
+  <label for="saldo_pasti_bulan_ini">Saldo Pasti Bulan Ini:</label>
+  <input type="text" id="saldo_pasti_bulan_ini" placeholder="Rp" readonly>
+</div>
+<div>
+  <label for="saldo_update">Saldo Update (Global):</label>
+  <input type="text" id="saldo_update" placeholder="Rp" readonly>
+</div>
+      <button type="submit">SIMPAN</button>
+    </div>
+  </form>
+
+  <table class="data-table" id="tabel-keuangan">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Created At</th>
+        <th>Judul</th>
+        <th>Instansi</th>
+        <th>Status</th>
+        <th>Kriteria</th>
+        <th>Volume</th>
+        <th>Nilai Satuan</th>
+        <th>Total Nilai</th>
+        <th>Saldo terahir</th>
+        <th>Deskripsi</th>
+        <th>Tindakan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Baris data akan dimuat di sini -->
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const urlLimit = 'https://script.google.com/macros/s/AKfycbz-vpd_VhAw5w9nbXmvzWDEIxM4FVxxmfY7GzlGQf77JzZ6TJ_2SJyJyM5Qhmrm8ieT5g/exec?sheet=TB_LIMIT';
+  const urlAkumulasi = 'https://script.google.com/macros/s/AKfycbz-vpd_VhAw5w9nbXmvzWDEIxM4FVxxmfY7GzlGQf77JzZ6TJ_2SJyJyM5Qhmrm8ieT5g/exec'; // endpoint TB_DATA
+
+  async function loadInstansiOptions() {
+    try {
+      const res = await fetch(urlLimit);
+      const data = await res.json();
+      const select = document.getElementById('instansi');
+      select.innerHTML = '<option value="" disabled selected>-- Pilih Instansi --</option>';
+
+      const instansiSet = new Set();
+      data.forEach(item => {
+        if (item.INSTANSI && !instansiSet.has(item.INSTANSI)) {
+          instansiSet.add(item.INSTANSI);
+          const opt = document.createElement('option');
+          opt.value = item.INSTANSI;
+          opt.textContent = item.INSTANSI;
+          select.appendChild(opt);
+        }
+      });
+    } catch (err) {
+      console.error('Gagal memuat instansi:', err);
+    }
+  }
+
+  async function updatePengeluaran(instansi) {
+    try {
+      const res = await fetch(`${urlAkumulasi}?sheet=TB_DATA&instansi=${encodeURIComponent(instansi)}`);
+      const data = await res.json();
+      const total = data.total_akumulasi || 0;
+      document.getElementById('ttl_pengeluaran_keluar').value = `Rp${total.toLocaleString('id-ID')}`;
+    } catch (err) {
+      console.error('Gagal menghitung pengeluaran:', err);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadInstansiOptions();
+
+    document.getElementById('instansi').addEventListener('change', function () {
+      const instansi = this.value;
+      updatePengeluaran(instansi);
+    });
+  });
+</script>
+</body>
+</html>
